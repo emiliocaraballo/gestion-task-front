@@ -1,4 +1,10 @@
-<div class="todo-item" [class.completed]="todo.completed">
+<div class="todo-item" 
+     [class.completed]="todo.completed"
+     [class.priority-high]="todo.priority === 'high'"
+     [class.priority-urgent]="todo.priority === 'urgent'"
+     [class.priority-medium]="todo.priority === 'medium'"
+     [class.priority-low]="todo.priority === 'low'">
+    
     <div class="todo-content">
         <label class="todo-checkbox">
             <input
@@ -11,9 +17,35 @@
         </label>
 
         <div class="todo-info">
-            <h3>{{ todo.title }}</h3>
-            <p *ngIf="todo.description">{{ todo.description }}</p>
+            <div class="todo-header">
+                <h3 class="todo-title">{{ todo.title }}</h3>
+                <div class="todo-badges">
+                    <span class="priority-badge" [class]="'priority-' + (todo.priority || 'medium')">
+                        {{ getPriorityLabel(todo.priority || 'medium') }}
+                    </span>
+                    <span class="category-badge" [class]="'category-' + (todo.category || 'work')">
+                        {{ getCategoryLabel(todo.category || 'work') }}
+                    </span>
+                </div>
+            </div>
+            
+            <p *ngIf="todo.description" class="todo-description">{{ todo.description }}</p>
+            
             <div class="todo-meta">
+                <div class="meta-item" *ngIf="todo.dueDate">
+                    <span class="meta-icon">📅</span>
+                    <span class="meta-text" [class.overdue]="isOverdue()">
+                        {{ formatDate(todo.dueDate) }}
+                    </span>
+                </div>
+                
+                <div class="meta-item" *ngIf="todo.createdAt">
+                    <span class="meta-icon">🕐</span>
+                    <span class="meta-text">
+                        Creada {{ getRelativeTime(todo.createdAt) }}
+                    </span>
+                </div>
+
                 <span class="status-badge" [class.completed]="todo.completed">
                     {{ todo.completed ? '✓ Completada' : '◦ Pendiente' }}
                 </span>
@@ -23,9 +55,18 @@
 
     <div class="todo-actions">
         <button 
+            class="action-btn edit-btn"
+            (click)="onEdit()"
+            aria-label="Editar tarea"
+            title="Editar tarea">
+            <span class="action-icon">✏️</span>
+            <span class="action-text">Editar</span>
+        </button>
+        <button 
             class="action-btn delete-btn"
             (click)="onDelete()"
-            aria-label="Eliminar tarea">
+            aria-label="Eliminar tarea"
+            title="Eliminar tarea">
             <span class="action-icon">🗑️</span>
             <span class="action-text">Eliminar</span>
         </button>

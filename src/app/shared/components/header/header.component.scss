@@ -1,0 +1,281 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+// Advanced Header
+.app-header {
+  background: v.$white;
+  border-bottom: 1px solid v.$gray-200;
+  box-shadow: v.$shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: map-get(v.$z-index, sticky);
+  backdrop-filter: blur(20px);
+  
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 map-get(v.$spacing, 4);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: map-get(v.$spacing, 6);
+    
+    @include m.media-query(sm) {
+      padding: 0 map-get(v.$spacing, 6);
+    }
+  }
+}
+
+// Header Brand
+.header-brand {
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, 3);
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: v.$gradient-primary;
+      border-radius: v.$border-radius;
+      transition: v.$transition-transform;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+      
+      svg {
+        color: v.$white;
+      }
+    }
+    
+    .brand-text {
+      display: flex;
+      align-items: center;
+      gap: map-get(v.$spacing, 2);
+      
+      .app-title {
+        margin: 0;
+        font-size: map-get(v.$font-size, xl);
+        font-weight: 800;
+        color: v.$text-primary;
+        letter-spacing: -0.025em;
+      }
+      
+      .app-version {
+        padding: 2px map-get(v.$spacing, 2);
+        background: v.$gradient-accent;
+        color: v.$white;
+        font-size: map-get(v.$font-size, xs);
+        font-weight: 600;
+        border-radius: v.$border-radius-sm;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+}
+
+// Header Navigation
+.header-nav {
+  display: none;
+  align-items: center;
+  gap: map-get(v.$spacing, 1);
+  
+  @include m.media-query(md) {
+    display: flex;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, 2);
+    padding: map-get(v.$spacing, 2) map-get(v.$spacing, 3);
+    border: none;
+    background: none;
+    color: v.$text-secondary;
+    font-size: map-get(v.$font-size, sm);
+    font-weight: 500;
+    border-radius: v.$border-radius;
+    transition: v.$transition-base;
+    cursor: pointer;
+    
+    &:hover {
+      background: v.$gray-100;
+      color: v.$text-primary;
+    }
+    
+    &.active {
+      background: v.$primary;
+      color: v.$white;
+      
+      svg {
+        color: v.$white;
+      }
+    }
+    
+    svg {
+      color: v.$text-hint;
+      transition: v.$transition-base;
+    }
+  }
+}
+
+// Header Actions
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: map-get(v.$spacing, 3);
+  
+  .search-container {
+    display: none;
+    
+    @include m.media-query(lg) {
+      display: block;
+    }
+    
+    .search-input-wrapper {
+      position: relative;
+      
+      .search-icon {
+        position: absolute;
+        left: map-get(v.$spacing, 3);
+        top: 50%;
+        transform: translateY(-50%);
+        color: v.$text-hint;
+        pointer-events: none;
+      }
+      
+      .search-input {
+        width: 300px;
+        padding: map-get(v.$spacing, 2) map-get(v.$spacing, 3) map-get(v.$spacing, 2) 44px;
+        border: 1px solid v.$gray-300;
+        border-radius: v.$border-radius-lg;
+        background: v.$gray-50;
+        font-size: map-get(v.$font-size, sm);
+        transition: v.$transition-base;
+        
+        &:focus {
+          outline: none;
+          border-color: v.$primary;
+          background: v.$white;
+          box-shadow: 0 0 0 3px rgba(v.$primary, 0.1);
+        }
+        
+        &::placeholder {
+          color: v.$text-hint;
+        }
+      }
+    }
+  }
+  
+  .action-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, 2);
+    padding: map-get(v.$spacing, 2) map-get(v.$spacing, 3);
+    border: none;
+    background: none;
+    color: v.$text-secondary;
+    font-size: map-get(v.$font-size, sm);
+    font-weight: 500;
+    border-radius: v.$border-radius;
+    transition: v.$transition-base;
+    cursor: pointer;
+    
+    &:hover {
+      background: v.$gray-100;
+      color: v.$text-primary;
+    }
+    
+    &.notification-btn {
+      .notification-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 18px;
+        height: 18px;
+        background: v.$error;
+        color: v.$white;
+        font-size: 10px;
+        font-weight: 600;
+        border-radius: v.$border-radius-full;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    &.create-btn {
+      background: v.$gradient-primary;
+      color: v.$white;
+      font-weight: 600;
+      
+      &:hover {
+        background: v.$primary-dark;
+        transform: translateY(-1px);
+        box-shadow: v.$shadow;
+      }
+    }
+  }
+  
+  .user-menu {
+    .user-avatar {
+      display: flex;
+      align-items: center;
+      gap: map-get(v.$spacing, 2);
+      padding: map-get(v.$spacing, 1);
+      border: none;
+      background: none;
+      border-radius: v.$border-radius-lg;
+      transition: v.$transition-base;
+      cursor: pointer;
+      
+      &:hover {
+        background: v.$gray-100;
+      }
+      
+      img {
+        width: 36px;
+        height: 36px;
+        border-radius: v.$border-radius-full;
+        object-fit: cover;
+      }
+      
+      .user-name {
+        display: none;
+        font-size: map-get(v.$font-size, sm);
+        font-weight: 500;
+        color: v.$text-primary;
+        
+        @include m.media-query(lg) {
+          display: block;
+        }
+      }
+      
+      svg {
+        color: v.$text-hint;
+      }
+    }
+  }
+}
+
+// Responsive improvements
+@include m.media-query(xs) {
+  .header-actions {
+    .search-container {
+      display: none;
+    }
+    
+    .action-btn {
+      span:not(.notification-badge) {
+        display: none;
+      }
+    }
+  }
+}

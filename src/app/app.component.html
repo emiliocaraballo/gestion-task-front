@@ -1,34 +1,22 @@
 <div class="app-container">
-    <header class="app-header">
-        <div class="header-content">
-            <div class="header-branding">
-                <div class="logo">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                    </svg>
-                </div>
-                <div class="header-text">
-                    <h1 class="app-title">{{ title }}</h1>
-                    <p class="app-subtitle">Organiza tus tareas de forma eficiente</p>
-                </div>
-            </div>
-            <div class="header-actions">
-                <div class="header-stats">
-                    <span class="stat-badge">Gestión de Tareas</span>
-                </div>
-            </div>
-        </div>
-    </header>
-    
-    <main class="app-content">
-        <div class="content-wrapper">
-            <section class="todo-section">
-                <div class="section-header">
-                    <h2 class="section-title">Mis Tareas</h2>
-                    <p class="section-description">Crea, organiza y completa tus tareas diarias</p>
-                </div>
-                <app-todo-list></app-todo-list>
-            </section>
-        </div>
+    <!-- Header -->
+    <app-header (createTask)="openCreateTaskModal()"></app-header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <!-- Dashboard -->
+        <app-dashboard></app-dashboard>
+
+        <!-- Tasks Manager -->
+        <app-tasks-manager (editTodo)="openEditTaskModal($event)"></app-tasks-manager>
     </main>
 </div>
+
+<!-- Task Modal -->
+<app-todo-modal
+    [isOpen]="isModalOpen"
+    [mode]="modalMode"
+    [todo]="selectedTodo"
+    (close)="closeModal()"
+    (save)="onSaveTodo($event)">
+</app-todo-modal>

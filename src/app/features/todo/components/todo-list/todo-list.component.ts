@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Todo } from '@features/todo/models/todo.model';
 import { TodoFacadeService } from '@features/todo/services/todo-facade.service';
-import { TodoFormComponent } from '../todo-form/todo-form.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
@@ -11,9 +10,11 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, TodoFormComponent, TodoItemComponent]
+  imports: [CommonModule, TodoItemComponent]
 })
 export class TodoListComponent implements OnInit {
+  @Output() editTodo = new EventEmitter<Todo>();
+  
   todos$: Observable<Todo[]>;
   loading$: Observable<boolean>;
   error$: Observable<string | null>;
@@ -28,27 +29,31 @@ export class TodoListComponent implements OnInit {
     this.todoFacade.loadTodos();
   }
 
-  onTodoCreated(todo: Todo): void {
-    this.todoFacade.createTodo({
-      title: todo.title,
-      description: todo.description || '',
-      completed: todo.completed
-    });
-  }
-
   onTodoUpdated(todo: Todo): void {
     if (todo.id) {
       this.todoFacade.updateTodo({
         id: todo.id,
         title: todo.title,
         description: todo.description || '',
-        completed: todo.completed
+        completed: todo.completed,
+        category: todo.category,
+        priority: todo.priority,
+        dueDate: todo.dueDate
       });
     }
   }
 
+  onTodoEdit(todo: Todo): void {
+    this.editTodo.emit(todo);
+  }
+
   onTodoDeleted(id: string): void {
     this.todoFacade.deleteTodo(id);
+  }
+
+  openCreateModal(): void {
+    // This will be connected to a modal service
+    console.log('Opening create modal from todo list...');
   }
 
   retryLoad(): void {

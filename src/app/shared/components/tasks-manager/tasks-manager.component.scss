@@ -1,0 +1,132 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+// Tasks Section
+.tasks-section {
+  padding: map-get(v.$spacing, 7) 0;
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 map-get(v.$spacing, 3);
+    width: 100%;
+    
+    @include m.media-query(sm) {
+      padding: 0 map-get(v.$spacing, 4);
+    }
+    
+    @include m.media-query(md) {
+      padding: 0 map-get(v.$spacing, 6);
+    }
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: map-get(v.$spacing, 6);
+    flex-wrap: wrap;
+    gap: map-get(v.$spacing, 4);
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: map-get(v.$spacing, 3);
+      
+      h3 {
+        margin: 0;
+        font-size: map-get(v.$font-size, 2xl);
+        font-weight: 700;
+        color: v.$text-primary;
+      }
+      
+      .task-count {
+        padding: map-get(v.$spacing, 1) map-get(v.$spacing, 3);
+        background: v.$gray-100;
+        color: v.$text-secondary;
+        font-size: map-get(v.$font-size, sm);
+        font-weight: 500;
+        border-radius: v.$border-radius-full;
+      }
+    }
+    
+    .section-filters {
+      display: flex;
+      align-items: center;
+      gap: map-get(v.$spacing, 4);
+      
+      .filter-tabs {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, 1);
+        background: v.$gray-100;
+        border-radius: v.$border-radius-lg;
+        padding: map-get(v.$spacing, 1);
+        
+        .filter-tab {
+          padding: map-get(v.$spacing, 2) map-get(v.$spacing, 3);
+          border: none;
+          background: none;
+          color: v.$text-secondary;
+          font-size: map-get(v.$font-size, sm);
+          font-weight: 500;
+          border-radius: v.$border-radius;
+          transition: v.$transition-base;
+          cursor: pointer;
+          
+          &:hover {
+            color: v.$text-primary;
+          }
+          
+          &.active {
+            background: v.$white;
+            color: v.$text-primary;
+            box-shadow: v.$shadow-sm;
+          }
+        }
+      }
+      
+      .view-options {
+        display: flex;
+        align-items: center;
+        gap: map-get(v.$spacing, 1);
+        
+        .view-btn {
+          width: 36px;
+          height: 36px;
+          border: 1px solid v.$gray-300;
+          background: v.$white;
+          color: v.$text-secondary;
+          border-radius: v.$border-radius;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: v.$transition-base;
+          cursor: pointer;
+          
+          &:hover {
+            border-color: v.$primary;
+            color: v.$primary;
+          }
+          
+          &.active {
+            background: v.$primary;
+            border-color: v.$primary;
+            color: v.$white;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive improvements
+@include m.media-query(xs) {
+  .tasks-section {
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: map-get(v.$spacing, 3);
+    }
+  }
+}

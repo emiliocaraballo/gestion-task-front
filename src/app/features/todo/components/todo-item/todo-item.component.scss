@@ -7,15 +7,23 @@
   border-radius: $border-radius-lg;
   box-shadow: $shadow;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: map-get($spacing, 4);
+  gap: map-get($spacing, 3);
   border: 1px solid transparent;
   transition: $transition-base;
+  position: relative;
+  width: 100%;
+  min-width: 0; // Importante para evitar overflow
+  
+  @include media-query(md) {
+    gap: map-get($spacing, 4);
+  }
 
   &:hover {
     border-color: rgba($primary, 0.2);
     box-shadow: $shadow-md;
+    transform: translateY(-1px);
   }
 
   &.completed {
@@ -23,15 +31,32 @@
     border-color: rgba($success, 0.1);
     
     .todo-info {
-      h3 {
+      .todo-title {
         color: $text-secondary;
         text-decoration: line-through;
       }
 
-      p {
+      .todo-description {
         color: $text-hint;
       }
     }
+  }
+
+  // Priority border indicators
+  &.priority-urgent {
+    border-left: 4px solid #ff4757;
+  }
+
+  &.priority-high {
+    border-left: 4px solid #ff6b35;
+  }
+
+  &.priority-medium {
+    border-left: 4px solid #ffa502;
+  }
+
+  &.priority-low {
+    border-left: 4px solid #26d0ce;
   }
 }
 
@@ -41,6 +66,7 @@
   gap: map-get($spacing, 3);
   flex: 1;
   min-width: 0;
+  overflow: hidden; // Evita overflow horizontal
 }
 
 .todo-checkbox {
@@ -99,20 +125,142 @@
 .todo-info {
   flex: 1;
   min-width: 0;
+}
 
-  h3 {
-    color: $text-primary;
-    font-size: map-get($font-size, lg);
-    font-weight: 600;
-    margin-bottom: map-get($spacing, 1);
-    line-height: 1.4;
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: map-get($spacing, 2);
+  gap: map-get($spacing, 2);
+  
+  @include media-query(xs) {
+    flex-direction: column;
+    gap: map-get($spacing, 2);
+  }
+  
+  @include media-query(sm) {
+    flex-direction: row;
+    gap: map-get($spacing, 3);
+  }
+}
+
+.todo-title {
+  color: $text-primary;
+  font-size: map-get($font-size, lg);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.todo-badges {
+  display: flex;
+  gap: map-get($spacing, 1);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @include media-query(xs) {
+    align-self: flex-start;
+    width: 100%;
+  }
+  
+  @include media-query(sm) {
+    gap: map-get($spacing, 2);
+    width: auto;
+  }
+}
+
+.todo-description {
+  color: $text-secondary;
+  font-size: map-get($font-size, base);
+  margin: 0 0 map-get($spacing, 3) 0;
+  line-height: 1.6;
+}
+
+.priority-badge, .category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px map-get($spacing, 2);
+  border-radius: $border-radius-full;
+  font-size: map-get($font-size, xs);
+  font-weight: 500;
+}
+
+.priority-badge {
+  &.priority-urgent {
+    background: rgba(#ff4757, 0.1);
+    color: #ff4757;
   }
 
-  p {
-    color: $text-secondary;
-    font-size: map-get($font-size, base);
-    margin-bottom: map-get($spacing, 2);
-    line-height: 1.6;
+  &.priority-high {
+    background: rgba(#ff6b35, 0.1);
+    color: #ff6b35;
+  }
+
+  &.priority-medium {
+    background: rgba(#ffa502, 0.1);
+    color: #ffa502;
+  }
+
+  &.priority-low {
+    background: rgba(#26d0ce, 0.1);
+    color: #26d0ce;
+  }
+}
+
+.category-badge {
+  background: rgba($primary, 0.1);
+  color: $primary;
+
+  &.category-frontend {
+    background: rgba(#ff6b6b, 0.1);
+    color: #ff6b6b;
+  }
+
+  &.category-backend {
+    background: rgba(#4ecdc4, 0.1);
+    color: #4ecdc4;
+  }
+
+  &.category-database {
+    background: rgba(#45b7d1, 0.1);
+    color: #45b7d1;
+  }
+
+  &.category-testing {
+    background: rgba(#96ceb4, 0.1);
+    color: #96ceb4;
+  }
+
+  &.category-devops {
+    background: rgba(#ffeaa7, 0.1);
+    color: #ffeaa7;
+  }
+
+  &.category-documentation {
+    background: rgba(#dda0dd, 0.1);
+    color: #dda0dd;
+  }
+
+  &.category-bugfix {
+    background: rgba(#ff7675, 0.1);
+    color: #ff7675;
+  }
+
+  &.category-feature {
+    background: rgba(#00b894, 0.1);
+    color: #00b894;
+  }
+
+  &.category-security {
+    background: rgba(#e17055, 0.1);
+    color: #e17055;
+  }
+
+  &.category-performance {
+    background: rgba(#fdcb6e, 0.1);
+    color: #fdcb6e;
   }
 }
 
@@ -120,14 +268,47 @@
   display: flex;
   align-items: center;
   gap: map-get($spacing, 2);
+  flex-wrap: wrap;
+
+  @include media-query(xs) {
+    gap: map-get($spacing, 1);
+    font-size: map-get($font-size, xs);
+  }
+  
+  @include media-query(sm) {
+    gap: map-get($spacing, 2);
+  }
+  
+  @include media-query(md) {
+    gap: map-get($spacing, 3);
+  }
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 1);
+  font-size: map-get($font-size, sm);
+  color: $text-secondary;
+
+  .meta-icon {
+    font-size: map-get($font-size, base);
+  }
+
+  .meta-text {
+    &.overdue {
+      color: $error;
+      font-weight: 500;
+    }
+  }
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
-  padding: map-get($spacing, 1) map-get($spacing, 2);
+  padding: 2px map-get($spacing, 2);
   border-radius: $border-radius-full;
-  font-size: map-get($font-size, sm);
+  font-size: map-get($font-size, xs);
   font-weight: 500;
   background: rgba($primary, 0.1);
   color: $primary;
@@ -138,29 +319,60 @@
   }
 }
 
+
 .todo-actions {
+  display: flex;
+  gap: map-get($spacing, 2);
+  align-items: flex-start;
+  flex-shrink: 0;
+
   .action-btn {
     @include button-base;
     display: flex;
     align-items: center;
-    gap: map-get($spacing, 2);
-    padding: map-get($spacing, 2) map-get($spacing, 3);
+    gap: map-get($spacing, 1);
+    padding: map-get($spacing, 2) map-get($spacing, 2);
     color: $text-secondary;
     border-radius: $border-radius;
     transition: $transition-base;
+    font-size: map-get($font-size, sm);
 
-    &:hover {
-      background: rgba($error, 0.1);
-      color: $error;
+    &.edit-btn {
+      &:hover {
+        background: rgba($primary, 0.1);
+        color: $primary;
+      }
+    }
+
+    &.delete-btn {
+      &:hover {
+        background: rgba($error, 0.1);
+        color: $error;
+      }
     }
 
     .action-icon {
-      font-size: map-get($font-size, xl);
+      font-size: map-get($font-size, base);
     }
 
-    @include mobile {
+    @include media-query(xs) {
+      padding: map-get($spacing, 1) map-get($spacing, 2);
+      font-size: map-get($font-size, xs);
+      
       .action-text {
         display: none;
+      }
+      
+      .action-icon {
+        font-size: map-get($font-size, sm);
+      }
+    }
+    
+    @include media-query(sm) {
+      padding: map-get($spacing, 2);
+      
+      .action-text {
+        display: inline;
       }
     }
   }

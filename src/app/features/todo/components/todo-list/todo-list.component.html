@@ -1,86 +1,37 @@
-<div class="page-container">
-    <header class="page-header">
-        <div class="header-content">
-            <h1>Mis Tareas</h1>
-            <p class="subtitle">Organiza tus actividades de manera eficiente</p>
+<!-- Estado de carga -->
+<div *ngIf="loading$ | async" class="loading-state">
+    <div class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+    <p class="loading-text">Cargando tareas...</p>
+</div>
+
+<!-- Lista de tareas -->
+<div class="todos-container" *ngIf="todos$ | async as todos">
+    <!-- Lista vacía -->
+    <div *ngIf="todos.length === 0" class="empty-state">
+        <div class="empty-illustration">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10,9 9,9 8,9"/>
+            </svg>
         </div>
-    </header>
+        <h3>¡Comienza a organizar tus tareas!</h3>
+        <p>No hay tareas disponibles.</p>
+    </div>
 
-    <main class="main-content">
-        <!-- Formulario de nueva tarea -->
-        <section class="form-section">
-            <app-todo-form 
-                (todoCreated)="onTodoCreated($event)"
-                class="todo-form-container slide-in">
-            </app-todo-form>
-        </section>
-
-        <!-- Estado de carga -->
-        <div *ngIf="loading$ | async" class="loading-state">
-            <div class="loading-spinner"></div>
-            <p>Cargando tus tareas...</p>
-        </div>
-
-        <!-- Mensaje de error -->
-        <div *ngIf="error$ | async as error" class="error-state">
-            <div class="error-content">
-                <span class="error-icon">⚠️</span>
-                <p>{{ error }}</p>
-                <button class="btn btn-primary" (click)="retryLoad()">
-                    Intentar de nuevo
-                </button>
-            </div>
-        </div>
-
-        <!-- Lista de tareas -->
-        <section class="todos-section" *ngIf="todos$ | async as todos">
-            <!-- Estado vacío -->
-            <div *ngIf="todos.length === 0" class="empty-state">
-                <div class="empty-content">
-                    <div class="empty-icon">📝</div>
-                    <h2>No hay tareas pendientes</h2>
-                    <p>¡Comienza agregando una nueva tarea!</p>
-                </div>
-            </div>
-
-            <!-- Contenido de tareas -->
-            <div *ngIf="todos.length > 0" class="todos-content">
-                <!-- Panel de estadísticas -->
-                <div class="stats-panel">
-                    <div class="stat-card">
-                        <div class="stat-icon">📊</div>
-                        <div class="stat-info">
-                            <span class="stat-label">Total</span>
-                            <span class="stat-value">{{ todos.length }}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card completed">
-                        <div class="stat-icon">✅</div>
-                        <div class="stat-info">
-                            <span class="stat-label">Completadas</span>
-                            <span class="stat-value">{{ getCompletedCount(todos) }}</span>
-                        </div>
-                    </div>
-                    <div class="stat-card pending">
-                        <div class="stat-icon">🎯</div>
-                        <div class="stat-info">
-                            <span class="stat-label">Pendientes</span>
-                            <span class="stat-value">{{ getPendingCount(todos) }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lista de tareas -->
-                <div class="todos-grid">
-                    <app-todo-item
-                        *ngFor="let todo of todos; trackBy: trackByFn"
-                        [todo]="todo"
-                        (todoUpdated)="onTodoUpdated($event)"
-                        (todoDeleted)="onTodoDeleted($event)"
-                        class="todo-item-wrapper slide-in">
-                    </app-todo-item>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- Lista de tareas -->
+    <div *ngIf="todos.length > 0" class="todos-grid">
+        <app-todo-item
+            *ngFor="let todo of todos; trackBy: trackByFn"
+            [todo]="todo"
+            (todoUpdated)="onTodoUpdated($event)"
+            (todoDeleted)="onTodoDeleted($event)"
+            (todoEdit)="onTodoEdit($event)"
+            class="todo-item-wrapper">
+        </app-todo-item>
+    </div>
 </div>

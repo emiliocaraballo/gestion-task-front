@@ -7,6 +7,7 @@ import {
   CreateTodoDto, 
   UpdateTodoDto 
 } from '../../../features/todo/models/todo.model';
+import { TodoStats } from '../../../features/todo/models/todo-stats.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,22 @@ export class TodoApiService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.apiUrl);
+  getAllTodos(params?: {filter?: string, category?: string, priority?: string}): Observable<Todo[]> {
+    let url = this.apiUrl;
+    
+    if (params) {
+      const queryParams = new URLSearchParams();
+      if (params.filter) queryParams.set('filter', params.filter);
+      if (params.category) queryParams.set('category', params.category);
+      if (params.priority) queryParams.set('priority', params.priority);
+      
+      const queryString = queryParams.toString();
+      if (queryString) {
+        url += `?${queryString}`;
+      }
+    }
+    
+    return this.http.get<Todo[]>(url);
   }
 
   getTodoById(id: string): Observable<Todo> {
@@ -34,5 +49,9 @@ export class TodoApiService {
 
   deleteTodo(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getTodoStats(): Observable<TodoStats> {
+    return this.http.get<TodoStats>(`${this.apiUrl}/stats`);
   }
 }

@@ -1,0 +1,567 @@
+@use '../../../../../styles/variables' as *;
+@use '../../../../../styles/mixins' as *;
+
+// Modal Backdrop
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($black, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: map-get($z-index, modal-backdrop);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  &.show {
+    opacity: 1;
+  }
+}
+
+// Modal Container
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: map-get($z-index, modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  padding: map-get($spacing, 4);
+  
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    
+    .modal-content {
+      transform: scale(1) translateY(0);
+    }
+  }
+}
+
+// Modal Content
+.modal-content {
+  background: $white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-lg;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.9) translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+// Modal Header
+.modal-header {
+  padding: map-get($spacing, 6);
+  border-bottom: 1px solid $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba($primary, 0.05) 0%, rgba($accent, 0.05) 100%);
+  
+  .modal-title {
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 4);
+    
+    .title-icon {
+      width: 48px;
+      height: 48px;
+      background: $gradient-primary;
+      border-radius: $border-radius-lg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+      
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+    .title-text {
+      h2 {
+        margin: 0 0 map-get($spacing, 1) 0;
+        font-size: map-get($font-size, xl);
+        font-weight: 700;
+        color: $text-primary;
+      }
+      
+      p {
+        margin: 0;
+        font-size: map-get($font-size, sm);
+        color: $text-secondary;
+        line-height: 1.4;
+      }
+    }
+  }
+  
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid $gray-300;
+    background: $white;
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: $transition-base;
+    
+    &:hover {
+      background: $gray-100;
+      border-color: $gray-400;
+      color: $text-primary;
+    }
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Modal Body
+.modal-body {
+  padding: map-get($spacing, 6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+// Todo Form
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: map-get($spacing, 5);
+}
+
+// Form Group
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: map-get($spacing, 2);
+}
+
+// Form Label
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 1);
+  font-size: map-get($font-size, sm);
+  font-weight: 600;
+  color: $text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  
+  .label-text {
+    color: $text-primary;
+  }
+  
+  .required {
+    color: $error;
+    font-weight: 700;
+  }
+  
+  .optional {
+    color: $text-hint;
+    font-weight: 400;
+    text-transform: none;
+    font-size: map-get($font-size, xs);
+  }
+}
+
+// Input Wrapper
+.input-wrapper {
+  position: relative;
+  
+  .input-icon {
+    position: absolute;
+    right: map-get($spacing, 3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-hint;
+    pointer-events: none;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+// Form Input
+.form-input {
+  width: 100%;
+  padding: map-get($spacing, 4);
+  border: 2px solid $gray-300;
+  border-radius: $border-radius-lg;
+  font-size: map-get($font-size, base);
+  font-family: $font-family-base;
+  background: $white;
+  transition: $transition-base;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &:hover:not(:focus) {
+    border-color: $gray-400;
+  }
+  
+  &.error {
+    border-color: $error;
+    box-shadow: 0 0 0 3px rgba($error, 0.1);
+  }
+  
+  &::placeholder {
+    color: $text-hint;
+  }
+  
+  &.date-input {
+    padding-right: 44px;
+  }
+}
+
+// Form Textarea
+.form-textarea {
+  @extend .form-input;
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+// Form Select
+.select-wrapper {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: map-get($spacing, 3);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $text-hint;
+    pointer-events: none;
+  }
+}
+
+.form-select {
+  @extend .form-input;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 44px;
+  
+  option {
+    padding: map-get($spacing, 2);
+  }
+}
+
+// Form Row
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: map-get($spacing, 4);
+  
+  @include media-query(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// Priority Options
+.priority-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: map-get($spacing, 2);
+  
+  @include media-query(sm) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.priority-option {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 2);
+  padding: map-get($spacing, 3);
+  border: 2px solid $gray-300;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-base;
+  position: relative;
+  
+  &:hover {
+    border-color: var(--priority-color, $primary);
+    background: rgba(var(--priority-color, $primary), 0.05);
+  }
+  
+  input[type="radio"] {
+    display: none;
+    
+    &:checked + .priority-indicator {
+      background: var(--priority-color, $primary);
+      border-color: var(--priority-color, $primary);
+      
+      &::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    &:checked ~ .priority-label {
+      color: var(--priority-color, $primary);
+      font-weight: 600;
+    }
+  }
+  
+  .priority-indicator {
+    width: 16px;
+    height: 16px;
+    border: 2px solid $gray-400;
+    border-radius: $border-radius-full;
+    position: relative;
+    transition: $transition-base;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 6px;
+      height: 6px;
+      background: $white;
+      border-radius: $border-radius-full;
+      opacity: 0;
+      transition: $transition-base;
+    }
+  }
+  
+  .priority-label {
+    font-size: map-get($font-size, sm);
+    font-weight: 500;
+    color: $text-secondary;
+    transition: $transition-base;
+  }
+}
+
+// Checkbox Wrapper
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 3);
+  cursor: pointer;
+  padding: map-get($spacing, 4);
+  border: 2px solid $gray-300;
+  border-radius: $border-radius-lg;
+  transition: $transition-base;
+  
+  &:hover {
+    border-color: $primary;
+    background: rgba($primary, 0.02);
+  }
+  
+  .checkbox-input {
+    display: none;
+    
+    &:checked + .checkbox-custom {
+      background: $gradient-primary;
+      border-color: $primary;
+      
+      .checkbox-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+  
+  .checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $gray-400;
+    border-radius: $border-radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition-base;
+    
+    .checkbox-icon {
+      color: $white;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: $transition-base;
+    }
+  }
+  
+  .checkbox-label {
+    font-size: map-get($font-size, base);
+    font-weight: 500;
+    color: $text-primary;
+  }
+}
+
+// Form Errors
+.form-errors {
+  display: flex;
+  flex-direction: column;
+  gap: map-get($spacing, 1);
+  
+  .error-message {
+    font-size: map-get($font-size, sm);
+    color: $error;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 1);
+    
+    &::before {
+      content: '⚠';
+      font-size: 12px;
+    }
+  }
+}
+
+// Modal Footer
+.modal-footer {
+  padding: map-get($spacing, 6);
+  border-top: 1px solid $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: map-get($spacing, 3);
+  background: $gray-50;
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: map-get($spacing, 2);
+  padding: map-get($spacing, 3) map-get($spacing, 5);
+  border: none;
+  border-radius: $border-radius-lg;
+  font-size: map-get($font-size, base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+  text-decoration: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  &.btn-secondary {
+    background: $white;
+    color: $text-secondary;
+    border: 2px solid $gray-300;
+    
+    &:hover:not(:disabled) {
+      background: $gray-100;
+      border-color: $gray-400;
+      color: $text-primary;
+    }
+  }
+  
+  &.btn-primary {
+    background: $gradient-primary;
+    color: $white;
+    border: 2px solid transparent;
+    
+    &:hover:not(:disabled) {
+      background: $primary-dark;
+      transform: translateY(-1px);
+      box-shadow: $shadow;
+    }
+    
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Responsive Design
+@include media-query(xs) {
+  .modal-container {
+    padding: map-get($spacing, 2);
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: map-get($spacing, 4);
+  }
+  
+  .modal-header {
+    .modal-title {
+      gap: map-get($spacing, 3);
+      
+      .title-icon {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .title-text {
+        h2 {
+          font-size: map-get($font-size, lg);
+        }
+      }
+    }
+  }
+  
+  .todo-form {
+    gap: map-get($spacing, 4);
+  }
+  
+  .priority-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-footer {
+    flex-direction: column-reverse;
+    
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+// Animation
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-content {
+  animation: modalSlideIn 0.3s ease;
+}
