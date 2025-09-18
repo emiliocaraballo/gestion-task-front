@@ -1,0 +1,167 @@
+@use '../../../../../styles/variables' as *;
+@use '../../../../../styles/mixins' as *;
+
+.todo-item {
+  background: $white;
+  padding: map-get($spacing, 4);
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: map-get($spacing, 4);
+  border: 1px solid transparent;
+  transition: $transition-base;
+
+  &:hover {
+    border-color: rgba($primary, 0.2);
+    box-shadow: $shadow-md;
+  }
+
+  &.completed {
+    background: linear-gradient(to right, rgba($success, 0.05), rgba($success, 0.02));
+    border-color: rgba($success, 0.1);
+    
+    .todo-info {
+      h3 {
+        color: $text-secondary;
+        text-decoration: line-through;
+      }
+
+      p {
+        color: $text-hint;
+      }
+    }
+  }
+}
+
+.todo-content {
+  display: flex;
+  align-items: flex-start;
+  gap: map-get($spacing, 3);
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-checkbox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background: $white;
+    border: 2px solid rgba($primary, 0.3);
+    border-radius: $border-radius-sm;
+    transition: $transition-base;
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: none;
+      left: 8px;
+      top: 4px;
+      width: 5px;
+      height: 10px;
+      border: solid $white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background: $gradient-success;
+    border-color: transparent;
+
+    &:after {
+      display: block;
+    }
+  }
+
+  &:hover input ~ .checkmark {
+    border-color: $primary;
+  }
+}
+
+.todo-info {
+  flex: 1;
+  min-width: 0;
+
+  h3 {
+    color: $text-primary;
+    font-size: map-get($font-size, lg);
+    font-weight: 600;
+    margin-bottom: map-get($spacing, 1);
+    line-height: 1.4;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: map-get($font-size, base);
+    margin-bottom: map-get($spacing, 2);
+    line-height: 1.6;
+  }
+}
+
+.todo-meta {
+  display: flex;
+  align-items: center;
+  gap: map-get($spacing, 2);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: map-get($spacing, 1) map-get($spacing, 2);
+  border-radius: $border-radius-full;
+  font-size: map-get($font-size, sm);
+  font-weight: 500;
+  background: rgba($primary, 0.1);
+  color: $primary;
+
+  &.completed {
+    background: rgba($success, 0.1);
+    color: $success;
+  }
+}
+
+.todo-actions {
+  .action-btn {
+    @include button-base;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, 2);
+    padding: map-get($spacing, 2) map-get($spacing, 3);
+    color: $text-secondary;
+    border-radius: $border-radius;
+    transition: $transition-base;
+
+    &:hover {
+      background: rgba($error, 0.1);
+      color: $error;
+    }
+
+    .action-icon {
+      font-size: map-get($font-size, xl);
+    }
+
+    @include mobile {
+      .action-text {
+        display: none;
+      }
+    }
+  }
+}

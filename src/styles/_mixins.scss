@@ -1,0 +1,186 @@
+@use 'variables' as *;
+
+// Responsive mixins
+@mixin mobile {
+  @media (max-width: map-get($breakpoints, sm)) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: map-get($breakpoints, sm)) and (max-width: map-get($breakpoints, lg)) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: map-get($breakpoints, lg)) {
+    @content;
+  }
+}
+
+@mixin media-query($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// Flexbox layouts
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Typography
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin heading-1 {
+  font-size: map-get($font-size, 4xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@mixin heading-2 {
+  font-size: map-get($font-size, 3xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+// Interactive elements
+@mixin clickable {
+  cursor: pointer;
+  transition: $transition-base;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@mixin button-base {
+  @include clickable;
+  padding: map-get($spacing, 3) map-get($spacing, 4);
+  border-radius: $border-radius;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      opacity: 0.5;
+    }
+    
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+// Cards and containers
+@mixin card {
+  background: $surface;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  padding: map-get($spacing, 4);
+}
+
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 map-get($spacing, 4);
+  
+  @include mobile {
+    padding: 0 map-get($spacing, 3);
+  }
+}
+
+// Animations
+@mixin fade-in {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@mixin slide-in {
+  @keyframes slideIn {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  animation: slideIn 0.3s ease-in-out;
+}
+
+// Form elements
+@mixin input-base {
+  width: 100%;
+  padding: map-get($spacing, 3);
+  border: 1px solid $gray-300;
+  border-radius: $border-radius;
+  font-size: map-get($font-size, base);
+  transition: $transition-base;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &::placeholder {
+    color: $text-hint;
+  }
+  
+  &:disabled {
+    background-color: $gray-100;
+    cursor: not-allowed;
+  }
+}
+
+// Status indicators
+@mixin status-badge($color) {
+  display: inline-flex;
+  align-items: center;
+  padding: map-get($spacing, 1) map-get($spacing, 2);
+  border-radius: $border-radius-full;
+  background-color: rgba($color, 0.1);
+  color: $color;
+  font-size: map-get($font-size, sm);
+  font-weight: 500;
+}

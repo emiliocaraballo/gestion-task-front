@@ -1,0 +1,169 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, v.$gray-50 0%, v.$gray-100 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: v.$gradient-primary;
+  color: v.$text-on-primary;
+  box-shadow: v.$shadow-lg;
+  position: sticky;
+  top: 0;
+  z-index: map-get(v.$z-index, sticky);
+  backdrop-filter: blur(8px);
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: map-get(v.$spacing, 5) map-get(v.$spacing, 4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    @include m.media-query(sm) {
+      padding: map-get(v.$spacing, 6) map-get(v.$spacing, 5);
+    }
+  }
+  
+  .header-branding {
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, 4);
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: rgba(v.$white, 0.1);
+      border-radius: v.$border-radius-lg;
+      transition: v.$transition-transform;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+      
+      svg {
+        width: 24px;
+        height: 24px;
+        color: v.$white;
+      }
+    }
+    
+    .header-text {
+      .app-title {
+        margin: 0;
+        font-size: map-get(v.$font-size, 3xl);
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        
+        @include m.media-query(sm) {
+          font-size: map-get(v.$font-size, 4xl);
+        }
+      }
+      
+      .app-subtitle {
+        margin: map-get(v.$spacing, 1) 0 0 0;
+        font-size: map-get(v.$font-size, sm);
+        color: rgba(v.$white, 0.8);
+        font-weight: 400;
+        line-height: 1.4;
+      }
+    }
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: map-get(v.$spacing, 3);
+    
+    .header-stats {
+      .stat-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: map-get(v.$spacing, 2) map-get(v.$spacing, 4);
+        background: rgba(v.$white, 0.15);
+        border: 1px solid rgba(v.$white, 0.2);
+        border-radius: v.$border-radius-full;
+        font-size: map-get(v.$font-size, sm);
+        font-weight: 500;
+        color: v.$white;
+        backdrop-filter: blur(4px);
+        transition: v.$transition-base;
+        
+        &:hover {
+          background: rgba(v.$white, 0.2);
+          border-color: rgba(v.$white, 0.3);
+        }
+      }
+    }
+  }
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  
+  .content-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: map-get(v.$spacing, 6) map-get(v.$spacing, 4);
+    
+    @include m.media-query(sm) {
+      padding: map-get(v.$spacing, 7) map-get(v.$spacing, 5);
+    }
+  }
+  
+  .todo-section {
+    .section-header {
+      text-align: center;
+      margin-bottom: map-get(v.$spacing, 7);
+      
+      .section-title {
+        margin: 0 0 map-get(v.$spacing, 2) 0;
+        font-size: map-get(v.$font-size, 3xl);
+        font-weight: 700;
+        color: v.$text-primary;
+        line-height: 1.2;
+        
+        @include m.media-query(sm) {
+          font-size: map-get(v.$font-size, 4xl);
+        }
+      }
+      
+      .section-description {
+        margin: 0;
+        font-size: map-get(v.$font-size, lg);
+        color: v.$text-secondary;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+}
+
+// Responsive improvements
+@include m.media-query(xs) {
+  .app-header {
+    .header-content {
+      flex-direction: column;
+      gap: map-get(v.$spacing, 4);
+      text-align: center;
+      
+      .header-branding {
+        justify-content: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<div class="todo-item" [class.completed]="todo.completed">
+    <div class="todo-content">
+        <label class="todo-checkbox">
+            <input
+                type="checkbox"
+                [checked]="todo.completed"
+                (change)="onToggleComplete()"
+                [attr.aria-label]="'Marcar como ' + (todo.completed ? 'incompleta' : 'completa')"
+            >
+            <span class="checkmark"></span>
+        </label>
+
+        <div class="todo-info">
+            <h3>{{ todo.title }}</h3>
+            <p *ngIf="todo.description">{{ todo.description }}</p>
+            <div class="todo-meta">
+                <span class="status-badge" [class.completed]="todo.completed">
+                    {{ todo.completed ? '✓ Completada' : '◦ Pendiente' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="todo-actions">
+        <button 
+            class="action-btn delete-btn"
+            (click)="onDelete()"
+            aria-label="Eliminar tarea">
+            <span class="action-icon">🗑️</span>
+            <span class="action-text">Eliminar</span>
+        </button>
+    </div>
+</div>

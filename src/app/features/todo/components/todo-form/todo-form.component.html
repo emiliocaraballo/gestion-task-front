@@ -1,0 +1,39 @@
+<form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+    <div class="form-group">
+        <label for="title" class="form-label">Título</label>
+        <input
+            id="title"
+            type="text"
+            formControlName="title"
+            placeholder="¿Qué necesitas hacer?"
+            class="form-control"
+            [class.is-invalid]="titleControl?.invalid && titleControl?.touched"
+        >
+        <div class="error-feedback" *ngIf="titleControl?.invalid && titleControl?.touched">
+            <span *ngIf="titleControl?.errors?.['required']">
+                El título es requerido
+            </span>
+            <span *ngIf="titleControl?.errors?.['minlength']">
+                El título debe tener al menos 3 caracteres
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description" class="form-label">Descripción</label>
+        <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Describe los detalles de la tarea"
+            class="form-control"
+            rows="3"
+        ></textarea>
+    </div>
+
+    <button 
+        type="submit" 
+        class="submit-btn"
+        [disabled]="todoForm.invalid">
+        Agregar Tarea
+    </button>
+</form>
