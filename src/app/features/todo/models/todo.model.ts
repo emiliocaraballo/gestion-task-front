@@ -1,4 +1,4 @@
-export type TodoStatus = 'pending' | 'in_progress' | 'completed' | 'paused' | 'rejected';
+export type TodoStatus = 'pending' | 'in_progress' | 'completed' | 'rejected';
 
 export interface TodoStatusInfo {
   value: TodoStatus;
@@ -8,11 +8,10 @@ export interface TodoStatusInfo {
 }
 
 export const TODO_STATUSES: Record<TodoStatus, TodoStatusInfo> = {
-  pending: { value: 'pending', displayName: 'Pendiente', icon: '📝', color: '#6B7280' },
-  in_progress: { value: 'in_progress', displayName: 'En Curso', icon: '🚀', color: '#3B82F6' },
-  completed: { value: 'completed', displayName: 'Completada', icon: '✅', color: '#10B981' },
-  paused: { value: 'paused', displayName: 'Pausada', icon: '⏸️', color: '#F59E0B' },
-  rejected: { value: 'rejected', displayName: 'Rechazada', icon: '❌', color: '#EF4444' }
+  pending: { value: 'pending', displayName: 'Por Hacer', icon: '📋', color: '#6B7280' },
+  in_progress: { value: 'in_progress', displayName: 'En Progreso', icon: '⚡', color: '#3B82F6' },
+  completed: { value: 'completed', displayName: 'Completado', icon: '✅', color: '#10B981' },
+  rejected: { value: 'rejected', displayName: 'Rechazado', icon: '❌', color: '#EF4444' }
 };
 
 export interface Todo {
@@ -39,6 +38,7 @@ export interface TodoState {
 export interface CreateTodoDto {
   title: string;
   description: string;
+  status?: TodoStatus;
   completed: boolean;
   category?: string;
   priority?: string;
